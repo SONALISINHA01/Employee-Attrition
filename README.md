@@ -1,128 +1,164 @@
-💼 Employee Attrition Prediction System
-Predictive analysis of employee attrition using machine learning techniques for actionable HR insights.
+# 💼 Employee Attrition Prediction System
 
-📌 Project Overview
-This project aims to predict employee attrition using supervised learning algorithms, with a focus on Logistic Regression, supported by SVM, Random Forest, XGBoost, and Decision Trees. The system was deployed using Streamlit, allowing real-time predictions based on user input.
+> Predictive analysis of employee attrition using machine learning techniques for actionable HR insights.
 
+🔗 **Live Demo**: [Click to Open Streamlit App](https://employee-attrition-69vr2kxea9pzhbaxeub2ks.streamlit.app/)
 
+---
 
-https://employee-attrition-69vr2kxea9pzhbaxeub2ks.streamlit.app/
+## 📌 Overview
 
+This project predicts whether an employee is at risk of attrition using various supervised machine learning models. The final model (Logistic Regression) is deployed via a **Streamlit** web application, enabling real-time predictions based on user input.
 
-🎯 Objectives
-Predict if an employee is likely to leave the organization.
+---
 
-Deliver a high-performing, interpretable, and user-friendly web application.
+## 🎯 Objectives
 
-Build HR analytics skills using real-world ML pipelines.
+- ✅ Predict if an employee is likely to leave the organization.
+- ✅ Deliver a high-performing, interpretable, and user-friendly web application.
+- ✅ Apply a real-world ML pipeline in the HR analytics domain.
 
-📊 Technologies & Tools Used
-Category	Tools/Technologies
-Language	Python
-Data Analysis	pandas, numpy
-ML Modeling	scikit-learn, XGBoost
-Visualization	matplotlib, seaborn
-Model Deployment	Streamlit
-Model Serialization	joblib
-Version Control	Git & GitHub
+---
 
-📁 Project Structure
-bash
-Copy
-Edit
+## 🛠️ Tech Stack
+
+| Category            | Tools / Libraries                         |
+|---------------------|-------------------------------------------|
+| **Language**        | Python                                    |
+| **Data Analysis**   | pandas, numpy                             |
+| **ML Modeling**     | scikit-learn, XGBoost                     |
+| **Visualization**   | matplotlib, seaborn                       |
+| **Deployment**      | Streamlit                                 |
+| **Model Saving**    | joblib                                    |
+| **Version Control** | Git, GitHub                               |
+
+---
+
+## 📁 Project Structure
+
+```bash
 .
 ├── app.py                     # Streamlit Web App
-├── code.ipynb                # Jupyter Notebook with training, evaluation
-├── logistic_model.joblib     # Trained logistic regression model
-├── scaler.joblib             # Fitted StandardScaler object
-├── columns.joblib            # Required input columns used during training
-├── HR-Employee-Attrition.csv # Dataset used for training
-├── README.md                 # Project documentation
-🧠 Methodology
-Data Preprocessing
+├── code.ipynb                 # Jupyter Notebook (EDA + Modeling)
+├── logistic_model.joblib      # Trained Logistic Regression model
+├── scaler.joblib              # Fitted StandardScaler object
+├── columns.joblib             # Required input columns
+├── HR-Employee-Attrition.csv  # Dataset
+├── README.md                  # Project documentation
+```
 
-One-hot encoding of categorical variables
+---
 
-Feature scaling using StandardScaler
+## 🧠 Methodology
 
-Addressed class imbalance using SMOTE
+### 🔄 Data Preprocessing
 
-Model Development
+- One-hot encoding for categorical variables  
+- Feature scaling using `StandardScaler`  
+- Class imbalance handled using **SMOTE**
 
-Models trained: Logistic Regression, Decision Tree, Random Forest, SVM, XGBoost
+### ⚙️ Model Development
 
-Logistic Regression chosen for its accuracy (90%) and interpretability
+- Trained models:
+  - ✅ Logistic Regression (Selected for deployment)
+  - SVM
+  - Random Forest
+  - XGBoost
+  - Decision Tree
 
-Evaluation
+- Logistic Regression was chosen due to:
+  - High Accuracy (**90%**)
+  - Balanced metrics and interpretability
 
-Accuracy, Precision, Recall, F1-Score
+### 📊 Evaluation Metrics
 
-ROC Curve & AUC scores
+- Accuracy, Precision, Recall, F1-Score
+- ROC-AUC (Area Under Curve)
+- SHAP values for feature importance explanation
 
-SHAP values used for feature explainability
+### 🚀 Deployment
 
-Deployment
+- Built an interactive web interface using **Streamlit**
+- Model, scaler, and column metadata saved with `joblib`
+- Input fields match training-time preprocessing
 
-Built an interactive web interface using Streamlit
+---
 
-Input fields dynamically match model’s trained features
+## 📈 Model Performance Summary
 
-📈 Model Performance Summary
-Model	Accuracy	Precision	Recall	F1-Score	ROC-AUC
-Logistic Regression	0.90	0.83	0.43	0.57	0.87
-SVM	0.89	0.79	0.40	0.53	0.84
-Random Forest	0.86	0.88	0.12	0.21	0.76
-XGBoost	0.86	0.67	0.28	0.39	0.77
-Decision Tree	0.78	0.31	0.34	0.33	0.60
+| Model               | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
+|--------------------|----------|-----------|--------|----------|---------|
+| Logistic Regression| 0.90     | 0.83      | 0.43   | 0.57     | 0.87    |
+| SVM                | 0.89     | 0.79      | 0.40   | 0.53     | 0.84    |
+| Random Forest      | 0.86     | 0.88      | 0.12   | 0.21     | 0.76    |
+| XGBoost            | 0.86     | 0.67      | 0.28   | 0.39     | 0.77    |
+| Decision Tree      | 0.78     | 0.31      | 0.34   | 0.33     | 0.60    |
 
-💡 Key Insights
-Overtime is a strong predictor of attrition.
+---
 
-Job Satisfaction, Monthly Income, and Work-Life Balance are key influencers.
+## 💡 Key Insights
 
-Logistic Regression provided the best tradeoff between accuracy and interpretability.
+- 🔥 **Overtime** is the strongest predictor of attrition.
+- 💼 Other key features: **Job Satisfaction**, **Monthly Income**, **Work-Life Balance**
+- ✅ Logistic Regression had the best balance of performance and interpretability.
 
-🔍 Visualizations
-Confusion Matrices
+---
 
-ROC Curves
+## 📊 Visualizations
 
-SHAP plots for feature importance
+- ✅ Confusion Matrices
+- ✅ ROC Curves
+- ✅ SHAP Summary & Dependence Plots
 
-🧩 Challenges Faced
-Class Imbalance: Managed using SMOTE but required careful evaluation to prevent overfitting.
+---
 
-Feature Relevance: Not all features were business-explainable; required domain reasoning.
+## 🧩 Challenges Faced
 
-Deployment Complexity: Ensuring preprocessing logic matches between training and inference.
+- **Class Imbalance**: Solved using SMOTE, but overfitting had to be carefully avoided.
+- **Feature Interpretability**: Not all features had business relevance and needed contextual analysis.
+- **Pipeline Consistency**: Ensured deployment pipeline matches training logic.
 
-🚀 Future Improvements
-Integrate employee survey sentiment data
+---
 
-Add personalized HR recommendations per prediction
+## 🚀 Future Improvements
 
-Expand SHAP/LIME visualizations for transparency
+- Integrate **employee sentiment analysis** from surveys
+- Offer **personalized HR recommendations**
+- Expand explainability with **SHAP / LIME**
+- Build **HR dashboard** for better decision insights
 
-Build dashboard for HR teams with analytics insights
+---
 
-🧠 Learnings
-Built end-to-end ML deployment experience
+## 🧠 Learnings
 
-Improved understanding of HR metrics and their predictive relevance
+- Developed full **end-to-end ML deployment** skills
+- Gained insight into **HR analytics**
+- Learned to **communicate technical results** in HR-friendly language
+- Acknowledged importance of **ethics and fairness** in AI-based workplace systems
 
-Learned to communicate ML results in business-friendly language
+---
 
-Realized the importance of ethics and bias mitigation in HR AI models
+## 📚 Dataset
 
-📚 Dataset
-Source: IBM HR Analytics Employee Attrition & Performance dataset
+- **Source**: IBM HR Analytics Employee Attrition Dataset  
+- **Records**: 1,470  
+- **Features**: 35+ (e.g., `JobRole`, `OverTime`, `MonthlyIncome`, `JobSatisfaction`)
 
-Records: 1,470
+---
 
-Features: 14+ (e.g., JobRole, Overtime, MonthlyIncome)
+## 👩‍💻 Author
 
-👩‍💻 Author
-Sonali Sinha
-B.Tech CSE (AI & ML), Lovely Professional University
-📧 sonalisinha0610@gmail.com
+**Sonali Sinha**  
+B.Tech CSE (AI & ML), Lovely Professional University  
+📧 sonalisinha0610@gmail.com  
+🔗 [GitHub](https://github.com/SONALISINHA01)
 
+---
+
+## 📄 License
+
+**MIT License** – Feel free to fork, improve, and reuse with credits.
+
+---
+
+## 🌟 Star this repo if you found it helpful!
