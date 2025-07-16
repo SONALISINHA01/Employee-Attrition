@@ -2,17 +2,28 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import shap
+import matplotlib.pyplot as plt
+import streamlit.components.v1 as components
 
 # Load model and artifacts
 model = joblib.load("logistic_model.joblib")
 scaler = joblib.load("scaler.joblib")
 required_columns = joblib.load("columns.joblib")
 
+# SHAP explainer setup (using scaled background)
+@st.cache_resource
+def load_explainer():
+    background = scaler.transform(np.zeros((1, len(required_columns))))
+    return shap.LinearExplainer(model, background)
+
+explainer = load_explainer()
+
 # UI
 st.title("🧠 Employee Attrition Predictor")
 st.write("Fill the following employee information to predict if they are likely to leave.")
 
-# Sidebar input fields
+# Sidebar inputs
 age = st.sidebar.slider("Age", 18, 60, 30)
 distance = st.sidebar.slider("Distance From Home (km)", 1, 30, 5)
 monthly_income = st.sidebar.number_input("Monthly Income", 1000, 20000, 5000)
@@ -76,25 +87,53 @@ input_data = pd.DataFrame({
     'OverTime': [overtime]
 })
 
-# Preprocess input like training
+# Preprocessing
 def preprocess_input(data):
     data = pd.get_dummies(data)
-
     for col in required_columns:
         if col not in data.columns:
             data[col] = 0
+    return data[required_columns]
 
-    data = data[required_columns]
-    data_scaled = scaler.transform(data)
-    return data_scaled
+# SHAP helper
+def st_shap(plot, height=None):
+    shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
+    components.html(shap_html, height=height)
 
-# Predict
+# Prediction
 if st.button("Predict Attrition"):
-    processed = preprocess_input(input_data)
-    prediction = model.predict(processed)[0]
-    probability = model.predict_proba(processed)[0][1]
+    processed_input = preprocess_input(input_data)
+    scaled_input = scaler.transform(processed_input)
+    prediction = model.predict(scaled_input)[0]
+    probability = model.predict_proba(scaled_input)[0][1]
 
     if prediction == 1:
         st.error(f"⚠️ This employee is likely to leave. (Probability: {probability:.2f})")
     else:
         st.success(f"✅ This employee is likely to stay. (Probability: {probability:.2f})")
+
+    # SHAP explanation using scaled input
+    shap_values = explainer.shap_values(scaled_input)
+
+    st.subheader("🔍 Why this prediction?")
+    
+    # Waterfall plot (legacy for LinearExplainer)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    shap.plots._waterfall.waterfall_legacy(
+        explainer.expected_value, 
+        shap_values[0], 
+        feature_names=processed_input.columns,
+        show=False
+    )
+    plt.tight_layout()
+    st.pyplot(fig)
+
+
+    # SHAP feature importance
+    shap_df = pd.DataFrame({
+        'Feature': processed_input.columns,
+        'SHAP Value': shap_values[0]
+    }).sort_values(by="SHAP Value", key=abs, ascending=False)
+
+    st.write("📌 Top features influencing this prediction:")
+    st.dataframe(shap_df.head(5))
